@@ -32,8 +32,10 @@ class BlogApiTest {
 
     @Test
     fun `get posts contains correct domain models`() {
-        val apiPost = rxValue(blogService.getPosts()).get(0)
-        val posts = rxValue(sut.getPosts())
+        val page = 1
+        val limit = 20
+        val apiPost = rxValue(blogService.getPosts(page, limit)).get(0)
+        val posts = rxValue(sut.getPosts(page, limit))
 
         assertThat(posts)
             .hasSize(5)
