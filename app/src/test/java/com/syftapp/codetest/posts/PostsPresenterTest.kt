@@ -24,6 +24,9 @@ class PostsPresenterTest {
 
     private val anyPost = Post(1, 1, "title", "body")
 
+    val page = 1
+    val limit = 20
+
     private val sut by lazy {
         PostsPresenter(getPostsUseCase)
     }
@@ -33,7 +36,7 @@ class PostsPresenterTest {
 
     @Test
     fun `binding loads posts`() {
-        every { getPostsUseCase.execute() } returns Single.just(listOf(anyPost))
+        every { getPostsUseCase.execute(page, limit, true) } returns Single.just(listOf(anyPost))
 
         sut.bind(view)
 
@@ -46,7 +49,7 @@ class PostsPresenterTest {
 
     @Test
     fun `error on binding shows error state after loading`() {
-        every { getPostsUseCase.execute() } returns Single.error(Throwable())
+        every { getPostsUseCase.execute(page, limit, true) } returns Single.error(Throwable())
 
         sut.bind(view)
 
